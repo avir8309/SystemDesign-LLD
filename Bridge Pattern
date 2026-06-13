@@ -1,0 +1,45 @@
+
+// Bridge design pattern
+
+// car and engine ( m*n ) typically but with this only m+n classes
+
+// car abstract class and engine abstract class ( car has a engine )[ HLP have LLP ]
+
+public interface engine{
+    public void start();
+}
+public class diesel implements engine{
+    @Override
+    public void start() {
+        System.out.println("Starting Petrol Engine");
+    }
+}
+
+public class Petrol implements engine{
+    @Override
+    public void start() {
+        System.out.println("Starting Petrol Engine");
+    }
+}
+
+public abstract class car{
+    protected engine;
+    public car( engine eng){
+        this.engine = eng;
+
+    }
+    public abstract void drive();
+}
+
+public class Sedan extends car {
+
+    public Sedan(engine eng) {
+        super(eng);
+    }
+
+    @Override
+    public void drive() {
+        eng.start();
+        System.out.println("Driving Sedan");
+    }
+}
