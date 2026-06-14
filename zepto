@@ -1,0 +1,101 @@
++------------------+
+|     Product      |
++------------------+
+| int sku          |
+| String name      |
+| double amount    |
++------------------+
+
+        ^
+        |
+        | creates
+        |
++---------------------------+
+|      ProductFactory       |
++---------------------------+
+| createProduct(sku):Product|
++---------------------------+
+
+
+                    <<Interface>>
++------------------------------------------------+
+|                 InventoryStore                 |
++------------------------------------------------+
+| addProduct(Product, quantity)                  |
+| removeProduct(sku, quantity)                   |
+| checkProduct(sku)                              |
+| listAllProduct()                               |
++------------------------------------------------+
+                     ^
+                     |
+                     | implements
+                     |
++------------------------------------------------+
+|                DBInventoryStore                |
++------------------------------------------------+
+| Map<Integer,Integer> quantity                  |
++------------------------------------------------+
+| override methods                               |
++------------------------------------------------+
+
+
+                     <<Singleton>>
++------------------------------------------------+
+|                InventoryManager                |
++------------------------------------------------+
+| InventoryStore store                           |
++------------------------------------------------+
+| addStock(sku, q)                               |
+| removeStock(sku, q)                            |
+| checkStock()                                   |
++------------------------------------------------+
+
+
+                    <<Interface>>
++-------------------------------------------------------------+
+|                  ReplenishStrategy                          |
++-------------------------------------------------------------+
+| replenish(Map<Item, Integer>, InventoryManager im)          |
++-------------------------------------------------------------+
+
+
+            ^                                  ^
+            |                                  |
+            | implements                       | implements
+            |                                  |
++----------------------+      +-------------------------------+
+|       Weekly         |      |          Threshold            |
++----------------------+      +-------------------------------+
+| replenish()          |      | int threshold                |
++----------------------+      | replenish()                  |
+                              +-------------------------------+
+
+
++------------------------------------------------+
+|                   DarkStore                    |
++------------------------------------------------+
+| String name                                    |
+| double x                                       |
+| double y                                       |
+| InventoryManager im                            |
+| ReplenishStrategy rs                           |
++------------------------------------------------+
+| distanceTo(ux, uy)                             |
+| runReplenish()                                 |
++------------------------------------------------+
+
+Relationships:
+----------------------------------------------------
+ProductFactory  ----creates----> Product
+
+DBInventoryStore ----implements----> InventoryStore
+
+InventoryManager ----has-a----> InventoryStore
+
+DarkStore ----has-a----> InventoryManager
+DarkStore ----has-a----> ReplenishStrategy
+
+Weekly ----implements----> ReplenishStrategy
+Threshold ----implements----> ReplenishStrategy
+
+InventoryStore ----contains----> 1..* Product
